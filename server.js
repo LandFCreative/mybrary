@@ -21,7 +21,7 @@ mongoose.connect(process.env.DATABASE_URL, {
 
  const db = mongoose.connection
  db.on('error', error=> console.error(error))
-db.once('open', () => console.lo('Connected to mongoose'))
+db.once('open', () => console.log('Connected to mongoose'))
 
 app.use('/', indexRouter)
 
