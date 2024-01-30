@@ -1,6 +1,8 @@
 if (process.env.NODE_ENV !== 'production') {
-    require("dotenv").config({ path: '.env' });
+    require('dotenv').config({ path: '.env' });
 }
+
+
 const  express= require('express')
 const app = express()
 const expressLayouts = require('express-ejs-layouts')
@@ -14,37 +16,27 @@ app.use(expressLayouts)
 app.use(express.static('public'))
 
 const mongoose =require('mongoose')
-mongoose.connect(process.env.DATABASE_URI, {
+mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    bufferCommands: false,
+useUnifiedTopology: true,
 
-    autoCreate: false
-  })
+  bufferCommands: false,
 
-try {
+  autoCreate: false
+})
 
-  await mongoose.connect('mongodb://username:password@host:port/database', {
-
-    useNewUrlParser: true,
-
-    useUnifiedTopology: true,
-
-    bufferCommands: false,
-
-    autoCreate: false
-
-  });
-
-  console.log('Connected to MongoDB');
-
-} catch (error) {
-
-  console.error('Error connecting to MongoDB:', error);
-
-}
+const db = mongoose.connection
+db.on('error', error=> console.error(error))
+db.once('open', () => console.log('Connected to mongoose'))
 
 app.use('/', indexRouter)
 
 app.listen(process.env.PORT || 3000)
 
+
+mongoose.connect('mongodb://username:password@host:port/database', {
+
+  useNewUrlParser: true,
+
+  
+});
